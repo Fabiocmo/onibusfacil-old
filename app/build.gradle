@@ -26,6 +26,7 @@ android {
         versionName "1.1.2"
     }
 
+    /*
     signingConfigs {
         debug {
             storeFile file(System.getenv("KEYSTORE"))
@@ -40,6 +41,7 @@ android {
             keyPassword System.getenv("KEYSTORE_PASSWORD")
         }
     }
+    */
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_6
