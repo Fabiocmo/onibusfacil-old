@@ -1,4 +1,4 @@
-package com.motirolabs.onibusfacil.app;
+package com.motirolabs.onibusfacil;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -54,8 +54,8 @@ public class MainActivity extends ActionBarActivity {
 
     //
 
-    private static final String AD_UNIT_ID1 = "ca-app-pub-000000000000000000000000000";
-    private static final String AD_UNIT_ID2 = "ca-app-pub-000000000000000000000000000";
+    private static final String AD_UNIT_ID1 = "ca-app-pub-000000000000000000000000000"; // carlos
+    private static final String AD_UNIT_ID2 = "ca-app-pub-000000000000000000000000000"; // geshner
 
     //
 
@@ -104,6 +104,48 @@ public class MainActivity extends ActionBarActivity {
 
         }
     };
+
+    //
+
+    public static final String md5(final String s) {
+
+        try {
+
+            // Create MD5 Hash
+
+            MessageDigest digest = MessageDigest.getInstance("MD5");
+
+            digest.update(s.getBytes());
+
+            byte messageDigest[] = digest.digest();
+
+            // Create Hex String
+
+            StringBuffer hexString = new StringBuffer();
+
+            for (int i = 0; i < messageDigest.length; i++) {
+
+                String h = Integer.toHexString(0xFF & messageDigest[i]);
+
+                while (h.length() < 2) {
+                    h = "0" + h;
+                }
+
+                hexString.append(h);
+
+            }
+
+            return hexString.toString();
+
+        } catch (NoSuchAlgorithmException e) {
+
+            //
+
+        }
+
+        return "";
+
+    }
 
     //
 
@@ -209,92 +251,6 @@ public class MainActivity extends ActionBarActivity {
     //
 
     @Override
-    protected void onStop() {
-
-        stopLocationManager();
-
-        super.onStop();
-
-        if (DBG) Log.d(TAG, "onStop");
-
-    }
-
-    //
-
-    private void stopLocationManager() {
-
-        stopService(new Intent(this, LocationService.class));
-
-        unregisterReceiver(locationReceiver);
-
-    }
-
-    //
-
-    private int getDipsFromPixel(float pixels) {
-
-        final float scale = getResources().getDisplayMetrics().density;
-
-        return (int) (pixels * scale + 0.5f);
-
-    }
-
-    //
-
-    public static final String md5(final String s) {
-
-        try {
-
-            // Create MD5 Hash
-
-            MessageDigest digest = MessageDigest.getInstance("MD5");
-
-            digest.update(s.getBytes());
-
-            byte messageDigest[] = digest.digest();
-
-            // Create Hex String
-
-            StringBuffer hexString = new StringBuffer();
-
-            for (int i = 0; i < messageDigest.length; i++) {
-
-                String h = Integer.toHexString(0xFF & messageDigest[i]);
-
-                while (h.length() < 2) {
-                    h = "0" + h;
-                }
-
-                hexString.append(h);
-
-            }
-
-            return hexString.toString();
-
-        } catch (NoSuchAlgorithmException e) {
-
-            //
-
-        }
-
-        return "";
-
-    }
-
-    //
-
-    @Override
-    public void onDestroy() {
-
-        mAdView.destroy();
-
-        super.onDestroy();
-
-    }
-
-    //
-
-    @Override
     public void onPause() {
 
         mAdView.pause();
@@ -317,6 +273,17 @@ public class MainActivity extends ActionBarActivity {
     //
 
     @Override
+    public void onDestroy() {
+
+        mAdView.destroy();
+
+        super.onDestroy();
+
+    }
+
+    //
+
+    @Override
     protected void onStart() {
 
         super.onStart();
@@ -329,11 +296,14 @@ public class MainActivity extends ActionBarActivity {
 
     //
 
-    private void startLocationManager() {
+    @Override
+    protected void onStop() {
 
-        registerReceiver(locationReceiver, new IntentFilter(LocationService.ACTION_LOCATION));
+        stopLocationManager();
 
-        startService(new Intent(this, LocationService.class));
+        super.onStop();
+
+        if (DBG) Log.d(TAG, "onStop");
 
     }
 
@@ -371,6 +341,36 @@ public class MainActivity extends ActionBarActivity {
 
     //
 
+    private int getDipsFromPixel(float pixels) {
+
+        final float scale = getResources().getDisplayMetrics().density;
+
+        return (int) (pixels * scale + 0.5f);
+
+    }
+
+    //
+
+    private void startLocationManager() {
+
+        registerReceiver(locationReceiver, new IntentFilter(LocationService.ACTION_LOCATION));
+
+        startService(new Intent(this, LocationService.class));
+
+    }
+
+    //
+
+    private void stopLocationManager() {
+
+        stopService(new Intent(this, LocationService.class));
+
+        unregisterReceiver(locationReceiver);
+
+    }
+
+    //
+
     private void restartLocationManager() {
 
         stopLocationManager();
@@ -400,6 +400,35 @@ public class MainActivity extends ActionBarActivity {
             this.latitude = latitude;
             this.longitude = longitude;
             this.distance = distance;
+
+        }
+
+        //
+
+        @Override
+        protected void onPreExecute() {
+
+            super.onPreExecute();
+
+            dialog = new ProgressDialog(context);
+
+            dialog.setMessage("Carregando...");
+            dialog.show();
+
+        }
+
+        //
+
+        @Override
+        protected void onPostExecute(Long result) {
+
+            dialog.dismiss();
+
+            stopListAdapter.notifyDataSetChanged();
+
+            expandableListView.setSelection(0);
+
+            super.onPostExecute(result);
 
         }
 
@@ -557,35 +586,6 @@ public class MainActivity extends ActionBarActivity {
             isRunning = false;
 
             return null;
-        }
-
-        //
-
-        @Override
-        protected void onPreExecute() {
-
-            super.onPreExecute();
-
-            dialog = new ProgressDialog(context);
-
-            dialog.setMessage("Carregando...");
-            dialog.show();
-
-        }
-
-        //
-
-        @Override
-        protected void onPostExecute(Long result) {
-
-            dialog.dismiss();
-
-            stopListAdapter.notifyDataSetChanged();
-
-            expandableListView.setSelection(0);
-
-            super.onPostExecute(result);
-
         }
 
         /*

@@ -1,4 +1,4 @@
-package com.motirolabs.onibusfacil.app;
+package com.motirolabs.onibusfacil;
 
 import java.io.Serializable;
 
