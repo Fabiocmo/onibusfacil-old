@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Ônibus Fácil</string>
+    <string name="app_title">ÔNIBUS FÁCIL</string>
+
+    <string name="action_refresh">Atualiza</string>
+
+    <string name="latitude">Latitude</string>
+    <string name="longitude">Longitude</string>
+
+    <string name="stopName">Stop Name</string>
+	<string name="stopDistance">0.00</string>
+
+	<string name="RouteHead">Header</string>
+	<string name="routeCode">000</string>
+	<string name="routeName">Route Name</string>
+	<string name="routeHorarie">00:00</string>
+
+</resources>

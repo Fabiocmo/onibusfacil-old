@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <item type="id" name="home_layout"/>
+
+    <item type="id" name="elvBusstops"/>
+
+    <item type="id" name="imageView"/>
+
+    <item type="id" name="textView"/>
+
+    <item type="id" name="tvStopName"/>
+    <item type="id" name="tvStopDistance"/>
+
+	<item type="id" name="tvRouteCode"/>
+	<item type="id" name="tvRouteName"/>
+	<item type="id" name="tvRouteTime"/>
+
+	<item type="id" name="tvRouteHead"/>
+
+    <item type="id" name="action_refresh"/>
+
+</resources>
