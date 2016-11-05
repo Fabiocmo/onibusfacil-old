@@ -16,10 +16,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnGroupExpandListener;
-import android.widget.LinearLayout;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdSize;
-import com.google.android.gms.ads.AdView;
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
 import org.apache.http.client.ClientProtocolException;
@@ -54,12 +50,7 @@ public class MainActivity extends ActionBarActivity {
 
     //
 
-    private static final String AD_UNIT_ID1 = "ca-app-pub-000000000000000000000000000"; // carlos
-    private static final String AD_UNIT_ID2 = "ca-app-pub-000000000000000000000000000"; // geshner
-
-    //
-
-    private static String URL = "http://api.onibusfacil.com/busstops.php";
+    private static String URL = "http://ws.motirolabs.com/onibusfacil/busstops.php";
 
     //
 
@@ -74,8 +65,6 @@ public class MainActivity extends ActionBarActivity {
     boolean isRunning = false;
 
     private int versionCode;
-
-    private AdView mAdView;
 
     private int lastExpandedPosition = -1;
 
@@ -193,37 +182,6 @@ public class MainActivity extends ActionBarActivity {
 
         //
 
-        Calendar rightNow = Calendar.getInstance();
-
-        double day1 = rightNow.get(Calendar.DAY_OF_YEAR);
-        double day2 = Math.round(day1 / 2) * 2;
-
-        String adUnit = day1 == day2 ? AD_UNIT_ID2 : AD_UNIT_ID1;
-
-        //
-
-        mAdView = new AdView(this);
-
-        mAdView.setAdUnitId(adUnit);
-        mAdView.setAdSize(AdSize.SMART_BANNER);
-
-        //
-
-        LinearLayout layout = (LinearLayout) findViewById(R.id.home_layout);
-
-        layout.addView(mAdView);
-
-        //
-
-        AdRequest adRequest = new AdRequest.Builder()
-                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-                .addTestDevice("00000000000000000000000000000001")
-                .build();
-
-        mAdView.loadAd(adRequest);
-
-        //
-
         context = this;
 
         //
@@ -253,8 +211,6 @@ public class MainActivity extends ActionBarActivity {
     @Override
     public void onPause() {
 
-        mAdView.pause();
-
         super.onPause();
 
     }
@@ -266,16 +222,12 @@ public class MainActivity extends ActionBarActivity {
 
         super.onResume();
 
-        mAdView.resume();
-
     }
 
     //
 
     @Override
     public void onDestroy() {
-
-        mAdView.destroy();
 
         super.onDestroy();
 

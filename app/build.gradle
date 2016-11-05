@@ -1,19 +1,4 @@
-buildscript {
-    repositories {
-        mavenLocal()
-        jcenter()
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:1.2.3'
-    }
-}
-
 apply plugin: 'com.android.application'
-
-repositories {
-    mavenLocal()
-    jcenter()
-}
 
 android {
     compileSdkVersion Integer.parseInt(project.ANDROID_BUILD_SDK_VERSION)
@@ -41,12 +26,12 @@ android {
             keyPassword System.getenv("KEYSTORE_PASSWORD")
         }
     }
-    */
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_6
         targetCompatibility JavaVersion.VERSION_1_6
     }
+    */
 
     buildTypes {
         release {
